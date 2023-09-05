@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20230905174638_CreateUserSchema")]
-    partial class CreateUserSchema
+    [Migration("20230905195136_CreateHumanSchema")]
+    partial class CreateHumanSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,14 +37,15 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Genre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("char");
 
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
-                    b.Property<int>("Name")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<double>("Weight")
                         .HasColumnType("float");

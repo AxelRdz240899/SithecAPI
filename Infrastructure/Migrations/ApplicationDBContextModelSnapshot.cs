@@ -34,14 +34,15 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Genre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("char");
 
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
-                    b.Property<int>("Name")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<double>("Weight")
                         .HasColumnType("float");
