@@ -1,4 +1,5 @@
 ﻿using Core.BusinessModels.Command;
+using Core.RepositoryInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SithecAPI.Controllers
@@ -7,13 +8,19 @@ namespace SithecAPI.Controllers
     [ApiController]
     public class HumanController : ControllerBase
     {
+        private readonly IHumanRepository _humanRepository;
 
-        [HttpGet("get-mock-humans")]
+        public HumanController(IHumanRepository humanRepository) 
+        {
+            _humanRepository = humanRepository;
+        }
+
+        [HttpGet("mock-humans")]
         public IActionResult GetMockHumanList()
         {
             try
             {
-                return Ok();
+                return Ok(_humanRepository.GetMockHumanList());
             }
             catch (Exception ex)
             {
@@ -26,7 +33,7 @@ namespace SithecAPI.Controllers
         {
             try
             {
-                return Ok();
+                return Ok(_humanRepository.GetAll());
             }
             catch (Exception ex)
             {
@@ -35,11 +42,11 @@ namespace SithecAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetHumanById()
+        public IActionResult GetHumanById(int id)
         {
             try
             {
-                return Ok();
+                return Ok(_humanRepository.GetHumanById(id));
             }
             catch (Exception ex)
             {
@@ -52,7 +59,9 @@ namespace SithecAPI.Controllers
         {
             try
             {
-                return Ok();
+                request.Validate();
+                var newHuman = _humanRepository.CreateHuman(request);
+                return StatusCode(StatusCodes.Status201Created, newHuman);
             }
             catch (Exception ex)
             {
@@ -61,11 +70,13 @@ namespace SithecAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateHuman([FromBody] HumanCommand request)
+        public IActionResult UpdateHuman([FromBody] HumanCommand request, int id)
         {
             try
             {
-                return Ok();
+                request.Validate();
+                var updatedHuman = _humanRepository.UpdateHuman(request, id);
+                return Ok(updatedHuman);
             }
             catch (Exception ex)
             {

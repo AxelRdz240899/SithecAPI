@@ -1,4 +1,5 @@
 using Infrastructure;
+using SithecAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Inject repository services 
+builder.Services.InjectServices();
+
 //Entity Framework
 builder.Services.InjectDBContext(builder.Configuration);
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
