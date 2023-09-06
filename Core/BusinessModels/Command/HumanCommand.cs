@@ -23,15 +23,15 @@ namespace Core.BusinessModels.Command
         public char Genre { get; set; }
 
         [Required]
-        [Range(1, Double.PositiveInfinity)]
+        [Range(1, Double.PositiveInfinity, ErrorMessage = "The field {0} must be greater than {1}.")]
         public int Age { get; set; }
 
         [Required]
-        [Range(1, Double.PositiveInfinity)]
+        [Range(1, Double.PositiveInfinity, ErrorMessage = "The field {0} must be greater than {1}.")]
         public int Height { get; set; }
 
         [Required]
-        [Range(1, Double.PositiveInfinity)]
+        [Range(1, Double.PositiveInfinity, ErrorMessage = "The field {0} must be greater than {1}.")]
         public double Weight { get; set; }
 
         public void Validate()
