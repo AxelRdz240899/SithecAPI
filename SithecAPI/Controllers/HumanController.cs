@@ -22,30 +22,30 @@ namespace SithecAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetHumans()
+        public async Task<IActionResult> GetHumans()
         {
-            return Ok(_humanRepository.GetAll());
+            return Ok(await _humanRepository.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetHumanById(int id)
+        public async Task<IActionResult> GetHumanById(int id)
         {
-            return Ok(_humanRepository.GetHumanById(id));
+            return Ok(await _humanRepository.GetHumanByIdAsync(id));
         }
 
         [HttpPost]
-        public IActionResult CreateHuman([FromBody] HumanCommand request)
+        public async Task<IActionResult> CreateHuman([FromBody] HumanCommand request)
         {
             request.Validate();
-            var newHuman = _humanRepository.CreateHuman(request);
+            var newHuman = await _humanRepository.CreateHumanAsync(request);
             return StatusCode(StatusCodes.Status201Created, newHuman);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateHuman([FromBody] HumanCommand request, int id)
+        public async Task<IActionResult> UpdateHuman([FromBody] HumanCommand request, int id)
         {
             request.Validate();
-            var updatedHuman = _humanRepository.UpdateHuman(request, id);
+            var updatedHuman = await _humanRepository.UpdateHumanAsync(request, id);
             return Ok(updatedHuman);
         }
     }

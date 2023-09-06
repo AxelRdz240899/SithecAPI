@@ -6,9 +6,9 @@ namespace Core.RepositoryInterfaces
     public interface IHumanRepository
     {
         IEnumerable<HumanDTO> GetMockHumanList();
-        IEnumerable<HumanDTO> GetAll();
-        HumanDTO GetHumanById(int id);
-        public HumanDTO CreateHuman(HumanCommand newHuman);
-        public HumanDTO UpdateHuman(HumanCommand updatedHuman, int humanId);
+        Task<IEnumerable<HumanDTO>> GetAllAsync();
+        Task<HumanDTO> GetHumanByIdAsync(int id);
+        Task<HumanDTO> CreateHumanAsync(HumanCommand newHuman);
+        Task<HumanDTO> UpdateHumanAsync(HumanCommand updatedHuman, int humanId);
     }
 }

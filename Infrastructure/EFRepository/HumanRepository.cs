@@ -4,6 +4,7 @@ using Core.BusinessModels.Command;
 using Core.DBModels;
 using Core.RepositoryInterfaces;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,15 +27,15 @@ namespace Infrastructure.EFRepository
 
         #region Get methods
 
-        public IEnumerable<HumanDTO> GetAll()
+        public async Task<IEnumerable<HumanDTO>> GetAllAsync()
         {
-            IEnumerable<Human> humanList = _context.Human;
+            IEnumerable<Human> humanList = await _context.Human.ToListAsync();
             return _mapper.Map<List<HumanDTO>>(humanList);
         }   
 
-        public HumanDTO GetHumanById(int id)
+        public async Task<HumanDTO> GetHumanByIdAsync(int id)
         {
-            Human human = _context.Human.Find(id);
+            Human human = await _context.Human.FindAsync(id);
 
             if (human != null)
             {
@@ -80,11 +81,11 @@ namespace Infrastructure.EFRepository
 
         #region Create methods
 
-        public HumanDTO CreateHuman(HumanCommand newHuman)
+        public async Task<HumanDTO> CreateHumanAsync(HumanCommand newHuman)
         {
             var human = _mapper.Map<Human>(newHuman);
-            _context.Human.Add(human);
-            _context.SaveChanges();
+            await _context.Human.AddAsync(human);
+            await _context.SaveChangesAsync();
             return _mapper.Map<HumanDTO>(human);
         }
 
@@ -92,7 +93,7 @@ namespace Infrastructure.EFRepository
 
         #region Update methods
 
-        public HumanDTO UpdateHuman(HumanCommand updatedHuman, int humanId)
+        public async Task<HumanDTO> UpdateHumanAsync(HumanCommand updatedHuman, int humanId)
         {
             var human = _context.Human.Find(humanId);
 
@@ -104,7 +105,7 @@ namespace Infrastructure.EFRepository
                 human.Height = updatedHuman.Height;
                 human.Weight = updatedHuman.Weight;
                 _context.Update(human);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return _mapper.Map<HumanDTO>(human);
             }
