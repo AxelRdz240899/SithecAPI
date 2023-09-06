@@ -20,29 +20,15 @@ namespace SithecAPI.Controllers
         [HttpGet]
         public IActionResult MakeOperationWithGet([FromHeader] string num1, [FromHeader] string num2, [FromHeader] char operatorSymbol)
         {
-            try
-            {
-                var result = _operationService.MakeOperation(double.Parse(num1), double.Parse(num2), operatorSymbol);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = _operationService.MakeOperation(double.Parse(num1), double.Parse(num2), operatorSymbol);
+            return Ok(result);
         }
 
         [HttpPost]
         public IActionResult MakeOperationWithPost([FromBody] OperationCommand request)
         {
-            try
-            {
-                var result = _operationService.MakeOperation(request.num1, request.num2, request.operationSymbol);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = _operationService.MakeOperation(request.num1, request.num2, request.operationSymbol);
+            return Ok(result);
         }
     }
 }
