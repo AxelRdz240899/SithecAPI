@@ -9,7 +9,7 @@ namespace Core.BusinessModels.Operation
 {
     public class OperationHandler
     {
-        private readonly Dictionary<char, IOperation> availableOperations = new Dictionary<char, IOperation>();
+        private readonly Dictionary<char, Type> availableOperations = new Dictionary<char, Type>();
 
         // Así cumple con el principio de Open Closed de SOLID, podemos agregar n operadores y funcionará igual !!
         public OperationHandler()
@@ -25,16 +25,17 @@ namespace Core.BusinessModels.Operation
                 if (operationAttribute != null)
                 {
                     var operation = Activator.CreateInstance(operationType) as IOperation;
-                    availableOperations[operationAttribute.SymbolValue] = operation;
+                    availableOperations[operationAttribute.SymbolValue] = operationType;
                 }
             }
         }
 
         public double MakeOperation(double num1, double num2, char operationSymbol)
         {
-            if (availableOperations.TryGetValue(operationSymbol, out IOperation operation))
+            if (availableOperations.TryGetValue(operationSymbol, out Type operationType))
             {
-                return operation.ExecuteOperation(num1, num2);
+                var operatorInstance = Activator.CreateInstance(operationType) as IOperation;
+                return operatorInstance.ExecuteOperation(num1, num2);
             }
 
             throw new NotImplementedException("This operator is not implemented");
